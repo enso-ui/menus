@@ -10,8 +10,7 @@
             <div class="level-item">
                 <core-menu-organizer>
                     <template #default="{ bindings, events }">
-                        <vue-switch class="is-medium"
-                            v-bind="bindings"
+                        <vue-switch v-bind="bindings"
                             v-on="events"/>
                     </template>
                 </core-menu-organizer>

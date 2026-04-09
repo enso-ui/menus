@@ -1,44 +1,37 @@
 <template>
     <core-menu-item>
         <template #default="{ menu, editable, expandedSidebar, hasActiveChild, menuEvents }">
-            <div class="menu-item is-flex is-align-items-center"
-                v-on="menuEvents"
-                @mouseenter="dropdown = true"
-                @mouseleave="dropdown = false">
-                <div class="icon"
-                    :class="{ 'is-opaque': !menu.active && !hasActiveChild }">
-                    <fa class="handle"
-                        fixed-width
-                        icon="grip-lines"
-                        v-if="editable"/>
-                    <fa fixed-width
-                        :icon="menu.icon"
-                        v-else/>
-                </div>
-                <zoom :duration="300">
-                    <div class="ml-2 menu-hiding-label"
-                        :class="[
-                            { 'is-bold': menu.active },
-                            { 'is-opaque': !menu.active && !hasActiveChild }
-                        ]"
+            <div class="menu-item">
+                <a class="menu-item-link"
+                    :class="{
+                        'is-active': menu.active,
+                        'is-collapsed': !expandedSidebar
+                    }"
+                    v-tooltip="collapsedTooltip(expandedSidebar, menu)"
+                    v-on="menuEvents">
+                    <span class="icon menu-item-icon"
+                        :class="{ 'is-opaque': !menu.active && !hasActiveChild }">
+                        <fa class="handle"
+                            fixed-width
+                            :icon="faGripLines"
+                            v-if="editable"/>
+                        <fa fixed-width
+                            :icon="menu.icon"
+                            v-else/>
+                    </span>
+                    <span class="menu-item-label"
+                        :class="{ 'is-opaque': !menu.active && !hasActiveChild }"
                         v-if="expandedSidebar">
                         {{ i18n(menu.name) }}
-                    </div>
-                </zoom>
-                <dropdown-indicator class="is-small"
-                    :open="menu.expanded"
-                    v-if="menu.children"/>
-                <transition @enter="enter"
-                    @leave="leave">
-                    <div class="dropdown-content"
-                        ref="dropdown"
-                        v-if="!expandedSidebar && dropdown">
-                        <div class="dropdown-item"
-                            :class="{ 'is-bold': menu.active }">
-                            {{ i18n(menu.name) }}
-                        </div>
-                    </div>
-                </transition>
+                    </span>
+                    <span class="menu-arrow"
+                        :class="{ 'is-collapsed': !expandedSidebar }"
+                        v-if="menu.children">
+                        <dropdown-indicator
+                            class="is-compact"
+                            :open="menu.expanded"/>
+                    </span>
+                </a>
             </div>
         </template>
     </core-menu-item>
@@ -46,96 +39,135 @@
 
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
-import { Zoom } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
 import CoreMenuItem from '../../../core/components/menu/MenuItem.vue';
-
-library.add(faGripLines);
 
 export default {
     name: 'MenuItem',
 
     components: {
-        CoreMenuItem, DropdownIndicator, Fa, Zoom,
+        CoreMenuItem, DropdownIndicator, Fa,
     },
 
     inject: ['i18n'],
 
     data: () => ({
-        dropdown: false,
+        faGripLines,
     }),
 
-    computed: {
-        sidebar() {
-            return document.querySelector('.aside.sidebar');
-        },
-    },
-
     methods: {
-        adjust() {
-            this.$refs.dropdown.style['margin-top'] = `-${this.sidebar.scrollTop + 2}px`;
-        },
-        enter() {
-            this.adjust();
-            this.sidebar.addEventListener('scroll', this.adjust);
-        },
-        leave() {
-            this.sidebar.removeEventListener('scroll', this.adjust);
+        collapsedTooltip(expandedSidebar, menu) {
+            if (expandedSidebar) {
+                return null;
+            }
+
+            return {
+                content: this.i18n(menu.name),
+                placement: 'right',
+                offset: [0, 10],
+                delay: {
+                    show: 80,
+                    hide: 0,
+                },
+            };
         },
     },
 };
 </script>
 
 <style lang="scss">
-    @import '@enso-ui/themes/bulma/variables';
-
     .menu-list {
         .menu-item {
+            position: relative;
+            min-width: 0;
 
             .is-opaque {
-                opacity: 0.8;
+                opacity: 0.7;
 
                 &:hover {
-                    font-weight: 800;
+                    font-weight: inherit;
                 }
             }
 
-            display: flex;
-            padding: 0.3em 0.3em;
-            cursor: pointer;
+            .menu-item-link {
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+                font-size: 0.95rem;
+                line-height: 1.3;
+                width: 100%;
+                min-width: 0;
+                padding-block: 0.35rem;
+                padding-inline-start: 0.25rem;
+                padding-inline-end: 0.6rem;
+                color: var(--bulma-text);
+                transition: background-color .2s ease, color .2s ease;
+                text-decoration: none;
 
-            .menu-hiding-label {
+                &:hover {
+                    background-color: var(--bulma-scheme-main-ter);
+                    color: var(--bulma-text-strong);
+                }
+
+                &.is-active {
+                    background-color: var(--bulma-scheme-main-ter);
+                    color: var(--bulma-text-strong);
+                }
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0.45rem;
+                    bottom: 0.45rem;
+                    left: -0.35rem;
+                    width: 0.2rem;
+                    border-radius: 9999px;
+                    background-color: transparent;
+                    transition: background-color .2s ease, opacity .2s ease;
+                    opacity: 0;
+                }
+
+                &:hover::before {
+                    background-color: var(--bulma-border-strong);
+                    opacity: 0.45;
+                }
+
+                &.is-active::before {
+                    background-color: var(--bulma-primary);
+                    opacity: 1;
+                }
+
+                &.is-collapsed {
+                    justify-content: flex-start;
+                    gap: 0;
+                    padding-inline-end: 0.72rem;
+                    padding-inline-start: 0.45rem;
+                }
+            }
+
+            .menu-item-label {
+                flex: 1 1 auto;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 white-space: nowrap;
+                font-weight: 500;
             }
 
-            .dropdown-content {
-                display: block;
-                white-space: nowrap;
-                padding-bottom: 0;
-                padding-top: 0;
-                position: fixed;
-
-                .dropdown-item.is-bold {
-                    font-weight: 800;
-                }
-
-                [dir='ltr'] & {
-                    left: $sidebar-collapsed-width;
-                }
-
-                [dir='rtl'] & {
-                    right: $sidebar-collapsed-width;
-                }
+            .menu-item-icon {
+                flex: 0 0 auto;
             }
 
-            .icon.angle.is-small {
-                [dir='ltr'] & {
-                    margin-left: auto;
-                }
-                [dir='rtl'] & {
-                    margin-right: auto;
+            .menu-arrow {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-inline-start: auto;
+                min-width: 0.5rem;
+
+                &.is-collapsed {
+                    margin-inline-start: 0.25rem;
                 }
             }
         }

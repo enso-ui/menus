@@ -1,7 +1,7 @@
 <template>
     <div class="columns is-centered">
         <div class="column is-three-quarters-desktop is-full-touch">
-            <enso-form class="box has-background-light raises-on-hover"
+            <enso-form class="box"
                 @ready="ready = true"
                 ref="form">
                 <template #actions
@@ -16,7 +16,7 @@
                                 {{ i18n('Configure') }}
                             </span>
                             <span class="icon">
-                                <fa icon="sliders-h"/>
+                                <fa :icon="faSliders"/>
                             </span>
                             <span class="is-hidden-mobile"/>
                         </a>
@@ -28,7 +28,7 @@
                                 {{ i18n('File') }}
                             </span>
                             <span class="icon">
-                                <fa icon="save"/>
+                                <fa :icon="faSave"/>
                             </span>
                             <span class="is-hidden-mobile"/>
                         </a>
@@ -41,11 +41,8 @@
 
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSave, faSlidersH } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faSliders } from '@fortawesome/free-solid-svg-icons';
 import { EnsoForm } from '@enso-ui/forms/bulma';
-
-library.add(faSave, faSlidersH);
 
 export default {
     name: 'Edit',
@@ -57,6 +54,8 @@ export default {
     ],
 
     data: () => ({
+        faSave,
+        faSliders,
         ready: false,
     }),
 

@@ -1,21 +1,19 @@
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { useStore } from '../../utils/pinia';
 
 export default {
     name: 'MenuOrganizer',
 
-    computed: {
-        ...mapState('menu', ['editable']),
-    },
-
     methods: {
-        ...mapMutations('menu', ['edit']),
+        edit(value) {
+            useStore('menu').edit(value);
+        },
     },
 
     render() {
         return this.$slots.default({
             bindings: {
-                modelValue: this.editable,
+                modelValue: useStore('menu').editable,
             },
             events: {
                 'update:modelValue': this.edit,

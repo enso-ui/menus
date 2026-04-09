@@ -1,7 +1,5 @@
 <script>
-import {
-    mapState, mapGetters, mapMutations, mapActions,
-} from 'vuex';
+import { useStore } from '../../utils/pinia';
 
 export default {
     name: 'MenuItem',
@@ -16,10 +14,15 @@ export default {
     },
 
     computed: {
-        ...mapState('menu', ['editable']),
-        ...mapState('layout', ['isTouch']),
-        ...mapState('layout/sidebar', ['isExpanded']),
-        ...mapGetters('menu', ['hasActiveChild']),
+        editable() {
+            return useStore('menu').editable;
+        },
+        isTouch() {
+            return useStore('layout').isTouch;
+        },
+        isExpanded() {
+            return useStore('layout').sidebar.isExpanded;
+        },
         active() {
             return this.menu.route !== null
                 && (this.matchesName || this.matchesPath);
@@ -53,9 +56,21 @@ export default {
     },
 
     methods: {
-        ...mapMutations('layout/sidebar', ['hide']),
-        ...mapMutations('menu', ['activate', 'toggle']),
-        ...mapActions('menu', ['refresh']),
+        hasActiveChild(menu) {
+            return useStore('menu').hasActiveChild(menu);
+        },
+        hide() {
+            useStore('layout').hideSidebar();
+        },
+        activate(payload) {
+            useStore('menu').activate(payload);
+        },
+        toggle(menu) {
+            useStore('menu').toggle(menu);
+        },
+        refresh() {
+            useStore('menu').refresh();
+        },
         select() {
             if (this.menu.children) {
                 this.toggle(this.menu);

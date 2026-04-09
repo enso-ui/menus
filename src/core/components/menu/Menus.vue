@@ -1,5 +1,5 @@
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { useStore } from '../../utils/pinia';
 
 export default {
     name: 'Menus',
@@ -26,7 +26,9 @@ export default {
     }),
 
     computed: {
-        ...mapState('menu', ['editable']),
+        editable() {
+            return useStore('menu').editable;
+        },
         disabled() {
             return !this.editable;
         },
@@ -46,7 +48,9 @@ export default {
     },
 
     methods: {
-        ...mapMutations('menu', ['organize']),
+        organize(payload) {
+            useStore('menu').organizeMenus(payload);
+        },
         shrink(height) {
             this.el.style.height = `${parseInt(this.el.style.height, 10) - height}px`;
             this.$emit('shrink', height);
