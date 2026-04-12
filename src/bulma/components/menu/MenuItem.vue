@@ -20,8 +20,10 @@
                             v-else/>
                     </span>
                     <span class="menu-item-label"
-                        :class="{ 'is-opaque': !menu.active && !hasActiveChild }"
-                        v-if="expandedSidebar">
+                        :class="{
+                            'is-collapsed': !expandedSidebar,
+                            'is-opaque': !menu.active && !hasActiveChild
+                        }">
                         {{ i18n(menu.name) }}
                     </span>
                     <span class="menu-arrow"
@@ -82,14 +84,6 @@ export default {
             position: relative;
             min-width: 0;
 
-            .is-opaque {
-                opacity: 0.7;
-
-                &:hover {
-                    font-weight: inherit;
-                }
-            }
-
             .menu-item-link {
                 display: flex;
                 align-items: center;
@@ -102,7 +96,12 @@ export default {
                 padding-inline-start: 0.25rem;
                 padding-inline-end: 0.4rem;
                 color: var(--bulma-text);
-                transition: background-color .2s ease, color .2s ease;
+                transition:
+                    background-color .2s ease,
+                    color .2s ease,
+                    gap 0s linear,
+                    padding-inline-start 0s linear,
+                    padding-inline-end 0s linear;
                 text-decoration: none;
 
                 &:hover {
@@ -141,34 +140,47 @@ export default {
                 &.is-collapsed {
                     justify-content: flex-start;
                     gap: 0;
-                    padding-inline-end: 0.72rem;
-                    padding-inline-start: 0.45rem;
+                    transition-delay: 0s, 0s, .5s, .5s, .5s;
                 }
             }
 
             .menu-item-label {
                 flex: 1 1 auto;
                 min-width: 0;
+                max-width: 100%;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 font-weight: 500;
+                opacity: 1;
+                transition: opacity .16s ease, max-width 0s linear, flex-basis 0s linear;
+
+                &.is-opaque {
+                    opacity: 0.7;
+                }
+
+                &.is-collapsed {
+                    opacity: 0;
+                    max-width: 0;
+                    flex-basis: 0;
+                    transition-delay: .5s, .5s, .5s;
+                }
             }
 
             .menu-item-icon {
                 flex: 0 0 auto;
+
+                &.is-opaque {
+                    opacity: 0.7;
+                }
             }
 
             .menu-arrow {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                margin-inline-start: auto;
                 min-width: 0.5rem;
-
-                &.is-collapsed {
-                    margin-inline-start: 0.25rem;
-                }
+                margin-inline-start: auto;
             }
         }
     }

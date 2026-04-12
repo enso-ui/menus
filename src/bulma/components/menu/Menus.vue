@@ -39,17 +39,5 @@ export default {
         display: block;
         overflow-y: hidden;
         overflow-x: visible;
-        margin: 0;
-
-        li > ul {
-            [dir='ltr'] & {
-                margin: 0 0 0 .75rem;
-                padding-left: 0;
-            }
-            [dir='rtl'] & {
-                margin: 0 .75rem 0 0;
-                padding-right: 0;
-            }
-        }
     }
 </style>
