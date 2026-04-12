@@ -151,11 +151,10 @@ export default {
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 font-weight: 500;
-                opacity: 1;
                 transition: opacity .16s ease, max-width 0s linear, flex-basis 0s linear;
 
                 &.is-opaque {
-                    opacity: 0.7;
+                    opacity: 0.6;
                 }
 
                 &.is-collapsed {
@@ -170,7 +169,7 @@ export default {
                 flex: 0 0 auto;
 
                 &.is-opaque {
-                    opacity: 0.7;
+                    opacity: 0.6;
                 }
             }
 
