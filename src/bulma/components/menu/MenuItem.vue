@@ -88,7 +88,6 @@ export default {
                 display: flex;
                 align-items: center;
                 gap: 0.3rem;
-                font-size: 0.95rem;
                 line-height: 1.3;
                 width: 100%;
                 min-width: 0;
