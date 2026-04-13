@@ -91,7 +91,7 @@ export default {
                 line-height: 1.3;
                 width: 100%;
                 min-width: 0;
-                padding-block: 0.3rem;
+                padding-block: 0.2rem;
                 padding-inline-start: 0.25rem;
                 padding-inline-end: 0.4rem;
                 color: var(--bulma-text);
