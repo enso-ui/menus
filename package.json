@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/menus",
-  "version": "5.2.12",
+  "version": "5.2.13",
   "description": "Basic menus package",
   "main": "src/bulma/pages/menus/Index.vue",
   "repository": {
