@@ -1,8 +1,9 @@
 <template>
     <core-menus>
-        <template #default="{ parentMenuEvents, organizeBindings, organizeEvents, ref }">
-            <ul class="menu-list"
-                :ref="ref">
+        <template #default="{ collapsed, organizeBindings, organizeEvents }">
+            <collapse :show="!collapsed"
+                class="menu-collapse">
+                <ul class="menu-list">
                 <draggable v-bind="organizeBindings"
                     handle=".handle"
                     v-on="organizeEvents">
@@ -11,33 +12,32 @@
                             <menu-item :menu="element"/>
                             <menus :menus="element.children"
                                 :collapsed="!element.expanded"
-                                v-on="parentMenuEvents"
                                 v-if="element.children"/>
                         </li>
                     </template>
                 </draggable>
-            </ul>
+                </ul>
+            </collapse>
         </template>
     </core-menus>
 </template>
 
 <script>
 import Draggable from 'vuedraggable';
+import { Collapse } from '@enso-ui/transitions';
 import CoreMenus from '../../../core/components/menu/Menus.vue';
 import MenuItem from './MenuItem.vue';
 
 export default {
     name: 'Menus',
 
-    components: { CoreMenus, MenuItem, Draggable },
+    components: { Collapse, CoreMenus, MenuItem, Draggable },
 };
 </script>
 
 <style lang="scss" scoped>
     .menu-list {
-        transition: height .333s ease;
         display: block;
-        overflow-y: hidden;
-        overflow-x: visible;
+        overflow: visible;
     }
 </style>

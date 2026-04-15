@@ -28,6 +28,7 @@
     "@enso-ui/forms": "^4.1.0",
     "@enso-ui/switch": "^2.1.0",
     "@enso-ui/tables": "^4.1.0",
+    "@enso-ui/transitions": "^2.2.0",
     "@enso-ui/ui": "^7.1.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.0"
@@ -37,6 +38,7 @@
     "@enso-ui/forms": "^4.1.0",
     "@enso-ui/switch": "^2.1.0",
     "@enso-ui/tables": "^4.1.0",
+    "@enso-ui/transitions": "^2.2.0",
     "@enso-ui/ui": "^7.1.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.0"
