@@ -18,7 +18,6 @@
                             <span class="icon">
                                 <fa :icon="faSliders"/>
                             </span>
-                            <span class="is-hidden-mobile"/>
                         </a>
                     </div>
                     <div class="level-item">
@@ -30,7 +29,6 @@
                             <span class="icon">
                                 <fa :icon="faSave"/>
                             </span>
-                            <span class="is-hidden-mobile"/>
                         </a>
                     </div>
                 </template>

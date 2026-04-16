@@ -1,5 +1,6 @@
+import App from '@enso-ui/ui/src/core/app';
 import { defineStore } from 'pinia';
-import { hasActiveChild, organize } from '../plugins/utils';
+import { hasActiveChild, organize, sync } from '../plugins/utils';
 
 export const menu = defineStore('menu', {
     state: () => ({
@@ -10,6 +11,7 @@ export const menu = defineStore('menu', {
     actions: {
         set(menus) {
             this.menus = menus;
+            sync(this, App.router.currentRoute.value, this.menus);
         },
         activate({ menu, active }) {
             menu.active = active;
@@ -32,10 +34,8 @@ export const menu = defineStore('menu', {
             this.menus = this.children;
             delete this.children;
         },
-        refresh(menus = null) {
-            const shouldRefresh = menus || this.menus;
-
-            shouldRefresh.filter(menu => menu.children)
+        refresh(menus = this.menus) {
+            menus.filter(menu => menu.children)
                 .forEach(menu => {
                     this.refresh(menu.children);
 
