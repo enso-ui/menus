@@ -6,12 +6,6 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { EnsoForm } from '@enso-ui/forms/bulma';
-
-export default {
-    name: 'Create',
-
-    components: { EnsoForm },
-};
 </script>

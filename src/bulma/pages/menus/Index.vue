@@ -3,12 +3,6 @@
         id="menus"/>
 </template>
 
-<script>
+<script setup>
 import { EnsoTable } from '@enso-ui/tables/bulma';
-
-export default {
-    name: 'Index',
-
-    components: { EnsoTable },
-};
 </script>
