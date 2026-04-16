@@ -1,5 +1,5 @@
 <script>
-import { useStore } from '../../../utils/pinia';
+import { menu as useMenu } from '../../../pinia/menu';
 
 export default {
     name: 'Menus',
@@ -21,7 +21,7 @@ export default {
 
     computed: {
         editable() {
-            return useStore('menu').editable;
+            return useMenu().editable;
         },
         disabled() {
             return !this.editable;
@@ -30,7 +30,7 @@ export default {
 
     methods: {
         organize(payload) {
-            useStore('menu').organizeMenus(payload);
+            useMenu().organizeMenus(payload);
         },
         persist() {
             this.http.put(this.route('system.menus.organize'), { menus: this.menus })

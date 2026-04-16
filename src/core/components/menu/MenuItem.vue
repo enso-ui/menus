@@ -1,5 +1,6 @@
 <script>
-import { useStore } from '../../../utils/pinia';
+import { layout as useLayout } from '@enso-ui/ui/src/pinia/layout';
+import { menu as useMenu } from '../../../pinia/menu';
 
 export default {
     name: 'MenuItem',
@@ -15,13 +16,13 @@ export default {
 
     computed: {
         editable() {
-            return useStore('menu').editable;
+            return useMenu().editable;
         },
         isTouch() {
-            return useStore('layout').isTouch;
+            return useLayout().isTouch;
         },
         isExpanded() {
-            return useStore('layout').sidebar.isExpanded;
+            return useLayout().sidebar.isExpanded;
         },
         active() {
             return this.menu.route !== null
@@ -57,19 +58,19 @@ export default {
 
     methods: {
         hasActiveChild(menu) {
-            return useStore('menu').hasActiveChild(menu);
+            return useMenu().hasActiveChild(menu);
         },
         hide() {
-            useStore('layout').hideSidebar();
+            useLayout().hideSidebar();
         },
         activate(payload) {
-            useStore('menu').activate(payload);
+            useMenu().activate(payload);
         },
         toggle(menu) {
-            useStore('menu').toggle(menu);
+            useMenu().toggle(menu);
         },
         refresh() {
-            useStore('menu').refresh();
+            useMenu().refresh();
         },
         select() {
             if (this.menu.children) {
