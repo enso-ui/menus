@@ -33,9 +33,9 @@ export const menu = defineStore('menu', {
             delete this.children;
         },
         refresh(menus = null) {
-            const shouldRefresh = menus || this.menus;
+            const items = menus ?? this.menus;
 
-            shouldRefresh.filter(menu => menu.children)
+            items.filter(menu => menu.children)
                 .forEach(menu => {
                     this.refresh(menu.children);
 
@@ -43,9 +43,6 @@ export const menu = defineStore('menu', {
                         this.expand(menu);
                     }
                 });
-        },
-        hasActiveChild(menu) {
-            return hasActiveChild(menu);
         },
     },
 });

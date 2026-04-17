@@ -1,24 +1,18 @@
 <script>
-import { menu as useMenu } from '../../../pinia/menu';
+import { menu } from '../../../pinia/menu';
 
 export default {
     name: 'MenuOrganizer',
 
-    methods: {
-        edit(value) {
-            useMenu().edit(value);
-        },
-    },
-
     render() {
-        const menu = useMenu();
+        const store = menu();
 
         return this.$slots.default({
             bindings: {
-                modelValue: menu.editable,
+                modelValue: store.editable,
             },
             events: {
-                'update:modelValue': this.edit,
+                'update:modelValue': value => store.edit(value),
             },
         });
     },

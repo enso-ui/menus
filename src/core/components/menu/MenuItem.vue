@@ -1,6 +1,7 @@
 <script>
-import { layout as useLayout } from '@enso-ui/ui/src/pinia/layout';
-import { menu as useMenu } from '../../../pinia/menu';
+import { layout } from '@enso-ui/ui/src/pinia/layout';
+import { hasActiveChild } from '../../../plugins/utils';
+import { menu } from '../../../pinia/menu';
 
 export default {
     name: 'MenuItem',
@@ -15,15 +16,6 @@ export default {
     },
 
     computed: {
-        editable() {
-            return useMenu().editable;
-        },
-        isTouch() {
-            return useLayout().isTouch;
-        },
-        isExpanded() {
-            return useLayout().sidebar.isExpanded;
-        },
         active() {
             return this.menu.route !== null
                 && (this.matchesName || this.matchesPath);
@@ -46,10 +38,10 @@ export default {
     watch: {
         active: {
             handler(active) {
-                this.activate({ menu: this.menu, active });
+                menu().activate({ menu: this.menu, active });
 
                 if (active) {
-                    this.$nextTick(this.refresh);
+                    this.$nextTick(() => menu().refresh());
                 }
             },
             immediate: true,
@@ -57,24 +49,9 @@ export default {
     },
 
     methods: {
-        hasActiveChild(menu) {
-            return useMenu().hasActiveChild(menu);
-        },
-        hide() {
-            useLayout().hideSidebar();
-        },
-        activate(payload) {
-            useMenu().activate(payload);
-        },
-        toggle(menu) {
-            useMenu().toggle(menu);
-        },
-        refresh() {
-            useMenu().refresh();
-        },
         select() {
             if (this.menu.children) {
-                this.toggle(this.menu);
+                menu().toggle(this.menu);
 
                 return;
             }
@@ -82,8 +59,8 @@ export default {
             this.$router.push({ name: this.menu.route })
                 .catch(this.routerErrorHandler);
 
-            if (this.isTouch) {
-                this.hide();
+            if (layout().isTouch) {
+                layout().hideSidebar();
             }
         },
     },
@@ -91,9 +68,9 @@ export default {
     render() {
         return this.$slots.default({
             menu: this.menu,
-            editable: this.editable,
-            expandedSidebar: this.isExpanded,
-            hasActiveChild: this.menu.children && this.hasActiveChild(this.menu),
+            editable: menu().editable,
+            expandedSidebar: layout().sidebar.isExpanded,
+            hasActiveChild: this.menu.children && hasActiveChild(this.menu),
             menuEvents: {
                 click: this.select,
             },

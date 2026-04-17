@@ -1,14 +1,14 @@
 <script>
-import { menu as useMenu } from '../../../pinia/menu';
+import { menu } from '../../../pinia/menu';
 
 export default {
     name: 'Sidebar',
 
     render() {
-        const menu = useMenu();
+        const store = menu();
 
         return this.$slots.default({
-            menus: menu.menus,
+            menus: store.menus,
         });
     },
 };

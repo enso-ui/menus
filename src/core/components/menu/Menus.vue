@@ -1,5 +1,5 @@
 <script>
-import { menu as useMenu } from '../../../pinia/menu';
+import { menu } from '../../../pinia/menu';
 
 export default {
     name: 'Menus',
@@ -19,19 +19,7 @@ export default {
         },
     },
 
-    computed: {
-        editable() {
-            return useMenu().editable;
-        },
-        disabled() {
-            return !this.editable;
-        },
-    },
-
     methods: {
-        organize(payload) {
-            useMenu().organizeMenus(payload);
-        },
         persist() {
             this.http.put(this.route('system.menus.organize'), { menus: this.menus })
                 .catch(this.errorHandler);
@@ -39,15 +27,17 @@ export default {
     },
 
     render() {
+        const store = menu();
+
         return this.$slots.default({
             collapsed: this.collapsed,
             organizeBindings: {
                 modelValue: this.menus,
-                disabled: this.disabled,
+                disabled: !store.editable,
                 itemKey: 'name',
             },
             organizeEvents: {
-                'update:modelValue': this.organize,
+                'update:modelValue': payload => store.organizeMenus(payload),
                 end: this.persist,
             },
         });
