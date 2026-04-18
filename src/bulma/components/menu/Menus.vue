@@ -1,6 +1,6 @@
 <template>
     <core-menus>
-        <template #default="{ collapsed, organizeBindings, organizeEvents }">
+        <template #default="{ collapsed, expandedSidebar, organizeBindings, organizeEvents }">
             <collapse :show="!collapsed"
                 class="menu-collapse">
                 <ul class="menu-list">
@@ -8,7 +8,7 @@
                     handle=".handle"
                     v-on="organizeEvents">
                     <template #item="{ element }">
-                        <li>
+                        <li v-tooltip="tooltip(expandedSidebar, element)">
                             <menu-item :menu="element"/>
                             <menus :menus="element.children"
                                 :collapsed="!element.expanded"
@@ -32,6 +32,23 @@ export default {
     name: 'Menus',
 
     components: { Collapse, CoreMenus, MenuItem, Draggable },
+
+    inject: ['i18n'],
+
+    methods: {
+        tooltip(expandedSidebar, menu) {
+            return {
+                shown: !expandedSidebar,
+                content: this.i18n(menu.name),
+                placement: 'right',
+                offset: [0, 10],
+                delay: {
+                    show: 80,
+                    hide: 0,
+                },
+            };
+        },
+    },
 };
 </script>
 

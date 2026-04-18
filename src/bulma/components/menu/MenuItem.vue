@@ -1,13 +1,18 @@
 <template>
-    <core-menu-item>
+    <core-menu-item v-bind="$attrs">
         <template #default="{ menu, editable, expandedSidebar, hasActiveChild, menuEvents }">
-            <div class="menu-item">
+            <div class="menu-item"
+                v-scroll-into-view="{
+                    scroll: menu.active && !menu.children,
+                    block: 'nearest',
+                    inline: 'nearest',
+                    behavior: 'smooth',
+                }">
                 <a class="menu-item-link"
                     :class="{
                         'is-active': menu.active,
                         'is-collapsed': !expandedSidebar
                     }"
-                    v-tooltip="collapsedTooltip(expandedSidebar, menu)"
                     v-on="menuEvents">
                     <span class="icon menu-item-icon"
                         :class="{ 'is-opaque': !menu.active && !hasActiveChild }">
@@ -43,38 +48,25 @@
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
+import { scrollIntoView } from '@enso-ui/directives';
 import CoreMenuItem from '../../../core/components/menu/MenuItem.vue';
 
 export default {
     name: 'MenuItem',
 
+    inheritAttrs: false,
+
     components: {
         CoreMenuItem, DropdownIndicator, Fa,
     },
+
+    directives: { scrollIntoView },
 
     inject: ['i18n'],
 
     data: () => ({
         faGripLines,
     }),
-
-    methods: {
-        collapsedTooltip(expandedSidebar, menu) {
-            if (expandedSidebar) {
-                return null;
-            }
-
-            return {
-                content: this.i18n(menu.name),
-                placement: 'right',
-                offset: [0, 10],
-                delay: {
-                    show: 80,
-                    hide: 0,
-                },
-            };
-        },
-    },
 };
 </script>
 

@@ -1,4 +1,5 @@
 <script>
+import { layout } from '@enso-ui/ui/src/pinia/layout';
 import { menu } from '../../../pinia/menu';
 
 export default {
@@ -31,6 +32,7 @@ export default {
 
         return this.$slots.default({
             collapsed: this.collapsed,
+            expandedSidebar: layout().sidebar.isExpanded,
             organizeBindings: {
                 modelValue: this.menus,
                 disabled: !store.editable,
