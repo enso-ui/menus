@@ -123,11 +123,6 @@ export default {
                     opacity: 0.45;
                 }
 
-                &.is-active::before {
-                    background-color: var(--bulma-primary);
-                    opacity: 1;
-                }
-
                 &.is-collapsed {
                     justify-content: flex-start;
                     gap: 0;
