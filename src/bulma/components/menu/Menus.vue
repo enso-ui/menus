@@ -37,8 +37,7 @@ export default {
 
     methods: {
         tooltip(expandedSidebar, menu) {
-            return {
-                shown: !expandedSidebar,
+            return expandedSidebar ? null : {
                 content: this.i18n(menu.name),
                 placement: 'right',
                 offset: [0, 10],
