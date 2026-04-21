@@ -105,19 +105,6 @@ export default {
                     color: var(--bulma-text-strong);
                 }
 
-                &::before {
-                    content: '';
-                    position: absolute;
-                    top: 0.45rem;
-                    bottom: 0.45rem;
-                    left: -0.35rem;
-                    width: 0.2rem;
-                    border-radius: 9999px;
-                    background-color: transparent;
-                    transition: background-color .2s ease, opacity .2s ease;
-                    opacity: 0;
-                }
-
                 &:hover::before {
                     background-color: var(--bulma-border-strong);
                     opacity: 0.45;
