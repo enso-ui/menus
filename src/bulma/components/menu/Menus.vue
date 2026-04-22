@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Draggable from 'vuedraggable';
+import Draggable from 'vuedraggable/dist/vuedraggable.common.js';
 import { Collapse } from '@enso-ui/transitions';
 import CoreMenus from '../../../core/components/menu/Menus.vue';
 import MenuItem from './MenuItem.vue';
