@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/menus",
-  "version": "5.2.23",
+  "version": "5.2.24",
   "description": "Menu management pages and sidebar/menu components for Enso UI",
   "main": "src/bulma/pages/menus/Index.vue",
   "scripts": {
