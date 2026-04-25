@@ -50,10 +50,3 @@ export default {
     },
 };
 </script>
-
-<style lang="scss" scoped>
-    .menu-list {
-        display: block;
-        overflow: visible;
-    }
-</style>

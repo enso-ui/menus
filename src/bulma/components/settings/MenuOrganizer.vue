@@ -3,7 +3,9 @@
         v-if="canAccess('system.menus.organize')">
         <div class="level-left">
             <div class="level-item">
-                {{ i18n('Organize Menus') }}
+                <span class="menu-item-label">
+                    {{ i18n('Organize Menus') }}
+                </span>
             </div>
         </div>
         <div class="level-right">

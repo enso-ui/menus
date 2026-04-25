@@ -10,12 +10,11 @@
                 }">
                 <a class="menu-item-link"
                     :class="{
-                        'is-active': menu.active,
+                        'is-active': menu.active || hasActiveChild,
                         'is-collapsed': !expandedSidebar
                     }"
                     v-on="menuEvents">
-                    <span class="icon menu-item-icon"
-                        :class="{ 'is-opaque': !menu.active && !hasActiveChild }">
+                    <span class="icon menu-item-icon">
                         <fa class="handle"
                             fixed-width
                             :icon="faGripLines"
@@ -25,10 +24,7 @@
                             v-else/>
                     </span>
                     <span class="menu-item-label"
-                        :class="{
-                            'is-collapsed': !expandedSidebar,
-                            'is-opaque': !menu.active && !hasActiveChild
-                        }">
+                        :class="{ 'is-collapsed': !expandedSidebar }">
                         {{ i18n(menu.name) }}
                     </span>
                     <span class="menu-arrow"
@@ -69,91 +65,3 @@ export default {
     }),
 };
 </script>
-
-<style lang="scss">
-    .menu-list {
-        .menu-item {
-            position: relative;
-            min-width: 0;
-
-            .menu-item-link {
-                display: flex;
-                align-items: center;
-                gap: 0.3rem;
-                line-height: 1.3;
-                width: 100%;
-                min-width: 0;
-                padding-block: 0.2rem;
-                padding-inline-start: 0.25rem;
-                padding-inline-end: 0.4rem;
-                color: var(--bulma-text);
-                transition:
-                    background-color .2s ease,
-                    color .2s ease,
-                    gap 0s linear,
-                    padding-inline-start 0s linear,
-                    padding-inline-end 0s linear;
-                text-decoration: none;
-
-                &:hover {
-                    background-color: var(--bulma-scheme-main-ter);
-                    color: var(--bulma-text-strong);
-                }
-
-                &.is-active {
-                    background-color: var(--bulma-scheme-main-ter);
-                    color: var(--bulma-text-strong);
-                }
-
-                &:hover::before {
-                    background-color: var(--bulma-border-strong);
-                    opacity: 0.45;
-                }
-
-                &.is-collapsed {
-                    justify-content: flex-start;
-                    gap: 0;
-                    transition-delay: 0s, 0s, .5s, .5s, .5s;
-                }
-            }
-
-            .menu-item-label {
-                flex: 1 1 auto;
-                min-width: 0;
-                max-width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-weight: 500;
-                transition: opacity .16s ease, max-width 0s linear, flex-basis 0s linear;
-
-                &.is-opaque {
-                    opacity: 0.6;
-                }
-
-                &.is-collapsed {
-                    opacity: 0;
-                    max-width: 0;
-                    flex-basis: 0;
-                    transition-delay: .5s, .5s, .5s;
-                }
-            }
-
-            .menu-item-icon {
-                flex: 0 0 auto;
-
-                &.is-opaque {
-                    opacity: 0.6;
-                }
-            }
-
-            .menu-arrow {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 0.5rem;
-                margin-inline-start: auto;
-            }
-        }
-    }
-</style>
